@@ -14,7 +14,7 @@ while true; do
   network_state="$(ifconfig en0 | grep 'status:' | awk '{print $2}')" # active|inactive
   # run only if the network interface is active
   if [[ "${network_state}" == "active" ]]; then
-    gateway=$(netstat -rn | grep 'default' | head -n 1 | awk '{print $2}')
+    gateway=$(netstat -rn | grep 'default' | grep 'en0' | head -n 1 | awk '{print $2}')
     ping="$(ping -c 1 -W 500 -q ${gateway} 2>&1)"
     result=$?
     packet_loss=$(echo "${ping}" | grep 'packet loss' | awk '{print $7}')
