@@ -10,7 +10,14 @@ fail_per=0
 
 while true; do
   datetime=$(date +'%Y-%m-%d %H:%M:%S')
-  count_packets=$(($count_packets + 1))
+  # reset counter every 600 seconds / 10 minutes
+  if (( $count_packets >= 600 )); then
+    count_packets=0
+    count_dropped=0
+    fail_per=0
+  else
+    count_packets=$(($count_packets + 1))
+  fi
   network_state="$(ifconfig en0 | grep 'status:' | awk '{print $2}')" # active|inactive
   # run only if the network interface is active
   if [[ "${network_state}" == "active" ]]; then
