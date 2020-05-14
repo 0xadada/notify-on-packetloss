@@ -3,6 +3,7 @@
 # Author @0xADADA
 
 mkdir -p "${HOME}/bin"
+mkdir -p "${HOME}/Library/LaunchAgents"
 cp \
   "pub.0xadada.notify-on-packetloss.plist" \
   "${HOME}/Library/LaunchAgents/pub.0xadada.notify-on-packetloss.plist"
