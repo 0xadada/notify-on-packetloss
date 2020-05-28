@@ -17,7 +17,7 @@ while true; do
   else
     count_packets=$(( count_packets + 1 ))
   fi
-  interface="$(netstat -rn | grep 'default' | head -n 1 | awk '{print $6}')" # e.g. en0, en7
+  interface="$(netstat -rn | grep default | grep -E '(\d+).(\d+).(\d+).(\d+)' | head -n1 | awk '{print $6}')" # e.g. en0, en7
   network_state="$(ifconfig "${interface}" | grep 'status:' | awk '{print $2}')" # active|inactive
   # run only if the network interface is active
   if [[ "${network_state}" == "active" ]]; then
