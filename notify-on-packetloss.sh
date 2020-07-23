@@ -8,6 +8,9 @@ count_packets=0
 count_dropped=0
 fail_per=0
 
+# Get the macOS release (e.g. "13": High Sierra, "14": Mojave, "15": Catalina)
+os_release=$(sw_vers | grep 'ProductVersion' | awk '{print $2}' | awk -F "." '{print $2}')
+
 while true; do
   # reset counter every 600 seconds / 10 minutes
   if (( count_packets >= 600 )); then
@@ -17,7 +20,13 @@ while true; do
   else
     count_packets=$(( count_packets + 1 ))
   fi
-  interface="$(netstat -rn | grep default | grep -E '(\d+).(\d+).(\d+).(\d+)' | head -n1 | awk '{print $6}')" # e.g. en0, en7
+  if [[ "${os_release}" == "15" ]]; then
+    # Catalina and above
+    interface="$(netstat -rn | grep default | grep -E '(\d+).(\d+).(\d+).(\d+)' | head -n1 | awk '{print $4}')" # e.g. en0, en7
+  else
+    # legacy macOS
+    interface="$(netstat -rn | grep default | grep -E '(\d+).(\d+).(\d+).(\d+)' | head -n1 | awk '{print $6}')"
+  fi
   network_state="$(ifconfig "${interface}" | grep 'status:' | awk '{print $2}')" # active|inactive
   # run only if the network interface is active
   if [[ "${network_state}" == "active" ]]; then
