@@ -6,7 +6,7 @@ _Send a macos notification when packetloss is detected._
 
 This creates a macos macos launchd service that runs a bash script checking for
 packetloss by pinging your internet gateway. When packetloss is detected, it'll
-create a macos notification and send a severity color to anybar.
+send a macos notification and severity color to anybar, and log to the system log.
 
 
 ## Requirements
