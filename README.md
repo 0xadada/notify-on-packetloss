@@ -18,6 +18,10 @@ create a macos notification and send a severity color to anybar.
 ## Installation
 
 ```bash
+mkdir -p nop && \
+  curl -#L https://github.com/0xadada/notify-on-packetloss/tarball/master | \
+  tar -xzv -C nop --strip-components=1
+cd nop
 ./install.sh
 ```
 
